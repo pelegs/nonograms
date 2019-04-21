@@ -1,0 +1,15 @@
+\documentclass[preview]{standalone}
+\usepackage[table]{xcolor}
+
+\def\cellsize{3mm}
+\newcommand\Z[1]{
+  \vphantom{\parbox[c]{\cellsize}{\cellcolor{#1}}}
+}
+
+\begin{document}
+\begin{tabular}[]{|c|c|c|}
+  \hline
+  \Z{blue}1 & \Z{red}4 & \Z{black}6 \\ \hline
+  \Z{red}3  & \Z{green}2 & \Z{black}6 \\ \hline
+\end{tabular}
+\end{document}
