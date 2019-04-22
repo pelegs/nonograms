@@ -1,15 +1,12 @@
 \documentclass[preview]{standalone}
 \usepackage[table]{xcolor}
+\usepackage{colortbl}
 
-\def\cellsize{3mm}
+\def\cellsize{1mm}
 \newcommand\Z[1]{
-  \vphantom{\parbox[c]{\cellsize}{\cellcolor{#1}}}
+  \vphantom{\parbox[c]{\cellsize}{#1}}
 }
 
 \begin{document}
-\begin{tabular}[]{|c|c|c|}
-  \hline
-  \Z{blue}1 & \Z{red}4 & \Z{black}6 \\ \hline
-  \Z{red}3  & \Z{green}2 & \Z{black}6 \\ \hline
-\end{tabular}
+\input{latex_test1.tex}
 \end{document}
