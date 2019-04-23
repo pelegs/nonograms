@@ -87,14 +87,42 @@ class line:
         cv2.destroyAllWindows()
 
 
+class Table:
+    rows = []
+    cols = []
+    max_row_clusters = 0
+    max_col_clusters = 0
+
+    def add_row(self, row):
+        self.rows.append(row)
+        if row.num_clusters > self.max_row_clusters:
+            self.max_row_clusters = row.num_clusters
+
+    def add_col(self, col):
+        self.cols.append(col)
+        if col.num_clusters > self.max_col_clusters:
+            self.max_col_clusters = col.num_clusters
+
+    def generate_table(self, img):
+        num_rows = img.shape[0] + self.max_col_clusters
+        num_cols = img.shape[1] + self.max_row_clusters
+        shape = (num_rows, num_cols, 4)
+        self.data = np.zeros(shape=shape)
+
+    def print(self):
+        print(self.max_row_clusters, self.max_col_clusters)
+        print(self.data.shape)
+
+
 img = cv2.imread('pics/test1.png', cv2.IMREAD_COLOR)
 background = np.array([255, 255, 255])
-rows = [line(img, i, 'row', background) for i in range(img.shape[0])]
-num_clusters = [row.num_clusters for row in rows]
-max_row_clusters = np.max(num_clusters)
 
-cols = '|' + 'p{\\cellsize}|'*max_row_clusters
-print('\\begin{{tabular}}{{{}}}'.format(cols))
-for row in rows:
-    row.print_latex(max_row_clusters)
-print('\\end{tabular}')
+rows = [line(img, i, type='row', bg=background) for i in range(img.shape[0])]
+cols = [line(img, i, type='col', bg=background) for i in range(img.shape[1])]
+table = Table()
+
+for row, col in zip(rows, cols):
+    table.add_row(row)
+    table.add_col(col)
+table.generate_table(img)
+table.print()
